@@ -49,7 +49,11 @@ public class InsertionSortGUI extends GBFrame {
             builder.append("Mean: " + getMean(s.get()) + "\n");
             builder.append("Median: " + getMedian(s.get()) + "\n");
             builder.append("Mode(s): ");
-            getModes(s.get()).forEach(i -> builder.append(i + " "));
+            try {
+                getModes(s.get()).forEach(i -> builder.append(i + " "));
+            } catch(NoModeException e) {
+                builder.append(e.getMessage());
+            }
             builder.append("\n");
             builder.append("Standard Deviation: " + getStandardDeviation(s.get()));
             outputField.setText(builder.toString());
@@ -88,7 +92,7 @@ public class InsertionSortGUI extends GBFrame {
         return (arr.get(middleIndex) + arr.get(middleIndex+1))/2;
     }
 
-    private ArrayList<Integer> getModes(ArrayList<Integer> arr) {
+    private ArrayList<Integer> getModes(ArrayList<Integer> arr) throws NoModeException {
         HashMap<Integer, Integer> occ = new HashMap<>();
         for(Integer i : arr)
             occ.put(i, 0);
@@ -99,7 +103,7 @@ public class InsertionSortGUI extends GBFrame {
         ArrayList<Integer> modes = new ArrayList<>();
         occ.entrySet().forEach(i -> {
                 if(i.getValue().compareTo(highestValue.get()) > 0) {
-                    modes.removeAll(modes);
+                    modes.clear();
                     highestValue.set(i.getValue());
                     modes.add(i.getKey());
                 }
@@ -108,7 +112,7 @@ public class InsertionSortGUI extends GBFrame {
                 }
         });
         if(modes.containsAll(s.get()))
-            return s.get();
+            throw new NoModeException("No Mode");
         return modes;
     }
 
