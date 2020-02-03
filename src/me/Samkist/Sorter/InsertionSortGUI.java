@@ -41,6 +41,8 @@ public class InsertionSortGUI extends GBFrame {
             builder.append("Median: " + getMedian(s.get()) + "\n");
             builder.append("Mode(s): ");
             getModes(s.get()).forEach(i -> builder.append(i + " "));
+            builder.append("\n");
+            builder.append("Standard Deviation: " + getStandardDeviation(s.get()));
             outputField.setText(builder.toString());
         }
         if(jButton.equals(reset)) {
@@ -51,6 +53,16 @@ public class InsertionSortGUI extends GBFrame {
 
     public InsertionSortGUI() {
         outputField.setEditable(false);
+    }
+
+    private double getStandardDeviation(ArrayList<Integer> arr) {
+        double mean = getMean(arr);
+        double total = 0;
+        for(int i = 0; i < arr.size(); i++) {
+            total += (arr.get(i) - mean) * (arr.get(i) - mean);
+        }
+        double mean2 = total/arr.size();
+        return Math.sqrt(mean2);
     }
 
     private double getMean(ArrayList<Integer> arr) {
