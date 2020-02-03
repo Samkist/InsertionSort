@@ -30,7 +30,16 @@ public class InsertionSortGUI extends GBFrame {
             String[] split = rawString.split(",");
             Integer[] numbers = new Integer[split.length];
             for(int i = 0; i < split.length; i++) {
-                numbers[i] = Integer.parseInt(split[i]);
+                try {
+                    numbers[i] = Integer.parseInt(split[i]);
+                } catch(Exception e) {
+                    messageBox("Invalid string");
+                    return;
+                }
+            }
+            if(numbers.length > 25) {
+                messageBox("Too many numbers (" + numbers.length + " > 25)");
+                return;
             }
             s = new Sorter(numbers);
             StringBuilder builder = new StringBuilder();
