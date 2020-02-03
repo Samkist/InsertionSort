@@ -68,7 +68,7 @@ public class InsertionSortGUI extends GBFrame {
         double mean = getMean(arr);
         double total = 0;
         for(int i = 0; i < arr.size(); i++) {
-            total += (arr.get(i) - mean) * (arr.get(i) - mean);
+            total += Math.pow((arr.get(i) - mean), 2);
         }
         double mean2 = total/arr.size();
         return Math.sqrt(mean2);
@@ -96,20 +96,20 @@ public class InsertionSortGUI extends GBFrame {
             occ.put(i, occ.get(i) + 1);
         }
         AtomicReference<Integer> highestValue = new AtomicReference<>(0);
-        ArrayList<Integer> greatestKeys = new ArrayList<>();
+        ArrayList<Integer> modes = new ArrayList<>();
         occ.entrySet().forEach(i -> {
                 if(i.getValue().compareTo(highestValue.get()) > 0) {
-                    greatestKeys.removeAll(greatestKeys);
+                    modes.removeAll(modes);
                     highestValue.set(i.getValue());
-                    greatestKeys.add(i.getKey());
+                    modes.add(i.getKey());
                 }
-                if(i.getValue().compareTo(highestValue.get()) == 0 && !greatestKeys.contains(i.getKey())) {
-                    greatestKeys.add(i.getKey());
+                if(i.getValue().compareTo(highestValue.get()) == 0 && !modes.contains(i.getKey())) {
+                    modes.add(i.getKey());
                 }
         });
-        if(greatestKeys.containsAll(s.get()))
+        if(modes.containsAll(s.get()))
             return s.get();
-        return greatestKeys;
+        return modes;
     }
 
 
